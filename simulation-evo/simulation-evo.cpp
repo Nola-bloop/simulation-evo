@@ -95,7 +95,7 @@ int main()
     srand(static_cast<unsigned int>(seed));
 
     std::ofstream timeline = mkFolder();
-    timeline << "cycle,event_count,deaths,population,dna-lifetime-maxLifetime-birthrate\n";
+    timeline << "cycle,events,deaths,population,creatures\n";
     run(&timeline);
     
     timeline.close();
