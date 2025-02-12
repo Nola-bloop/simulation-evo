@@ -11,36 +11,36 @@
 * Explications de mes choix de librairies
 * 
 * std::map
-*   J'ai décidé d'utiliser les std::map parce que la manipulation est beaucoup plus facile qu'avec des tableaux/vecteurs ou des strings.
-*   J'ai besoin de savoir rapidement il y a combien de chaque lettre et les std::map permettent de le faire. Ça facilite aussi la
-*   comparaison entre deux créatures, par exemple, l'algorithme de reproduction (Creature::mate()) a été extrèmement plus facile à
-*   faire parce que j'utilise des maps. J'avais commencé mon projet avec des strings, mais je me suis vite rendu compte que ça allait
-*   être insuportable à utiliser.
+*   J'ai dï¿½cidï¿½ d'utiliser les std::map parce que la manipulation est beaucoup plus facile qu'avec des tableaux/vecteurs ou des strings.
+*   J'ai besoin de savoir rapidement il y a combien de chaque lettre et les std::map permettent de le faire. ï¿½a facilite aussi la
+*   comparaison entre deux crï¿½atures, par exemple, l'algorithme de reproduction (Creature::mate()) a ï¿½tï¿½ extrï¿½mement plus facile ï¿½
+*   faire parce que j'utilise des maps. J'avais commencï¿½ mon projet avec des strings, mais je me suis vite rendu compte que ï¿½a allait
+*   ï¿½tre insuportable ï¿½ utiliser.
 * 
 * std::vector
-*   J'utilise les vecteurs pour ma liste d'évènements (PopulationMgr::eventQueue) et pour la population (Population::creatures).
+*   J'utilise les vecteurs pour ma liste d'ï¿½vï¿½nements (PopulationMgr::eventQueue) et pour la population (Population::creatures).
 *   Les vecteurs sont une meilleure option que les tableaux normeaux, parce que la taille fluctue beaucoup, surtout celui de la
 *   population. Oui, les vecteurs utilisent beaucoup de ressources, mais avec une utilisation intelligente du std::vector.reserve(),
-*   on peut minimiser les dégâts. Avant d'utiliser le reserve, ma mémoire était plafonnée, mais après l'avoir ajouté, ça s'est calmé.
-*   Bien vouloir remercier Morgan pour la suggestion de reserve et l'aide à la détection des memory leaks :,) Qu'es-ce qu'on ferait
+*   on peut minimiser les dï¿½gï¿½ts. Avant d'utiliser le reserve, ma mï¿½moire ï¿½tait plafonnï¿½e, mais aprï¿½s l'avoir ajoutï¿½, ï¿½a s'est calmï¿½.
+*   Bien vouloir remercier Morgan pour la suggestion de reserve et l'aide ï¿½ la dï¿½tection des memory leaks :,) Qu'es-ce qu'on ferait
 *   sans lui?
 * 
 * std::ofstream & std::filesystem (fs)
-*   J'avais besoin de lister et créer des fichier. Aussi être capable d'écrire à l'intérieur. Une rapide recherche google m'à
-*   dirigée vers std::ofstream et std::filesystem. J'ai pu facilement trouver la doc officielle et comprendre le fonctionnement.
-*   Je n'ai pas cherché plus loin, puisqu'après quelque tests (comme lister un dossier bidon et écrire des données bidons dans un
-*   fichier fraîchement créé), je n'ai pas ressenti le besoin de trouver une solution plus efficace. Tout fonctionnait bien et je
-*   me sentais à l'aise avec la manière de les manipuler.
+*   J'avais besoin de lister et crï¿½er des fichier. Aussi ï¿½tre capable d'ï¿½crire ï¿½ l'intï¿½rieur. Une rapide recherche google m'ï¿½
+*   dirigï¿½e vers std::ofstream et std::filesystem. J'ai pu facilement trouver la doc officielle et comprendre le fonctionnement.
+*   Je n'ai pas cherchï¿½ plus loin, puisqu'aprï¿½s quelque tests (comme lister un dossier bidon et ï¿½crire des donnï¿½es bidons dans un
+*   fichier fraï¿½chement crï¿½ï¿½), je n'ai pas ressenti le besoin de trouver une solution plus efficace. Tout fonctionnait bien et je
+*   me sentais ï¿½ l'aise avec la maniï¿½re de les manipuler.
 *   
 * srand & rand
-*   J'ai essayé plusieurs méthodes pour obtenir des valeurs aléatoires, tous trouvés sur Stackoverflow ou la doc officielle et celle-ci
-*   me parraissait la plus simple à utiliser. Elle m'a causé des problème à un certain moment parce que je ne savais pas que le srand()
-*   est global. Si tu call srand() plusieurs fois, ton random est tout fucké pis j'ai passé un bon moment à trouver l'erreur. (C'est
-*   Deepseek qui m'a aidé). l'utilisation du rand() est très straight-forward, donc je n'ai pas eu de problème de ce côté. Bref, j'ai
-*   bien aimé cette méthode pour faire du random parce que c'est propre, facile à lire, facile à utiliser et ça fonctionne bien. Les
-*   autres méthode que j'ai essayé étaient tous un peu weird à regarder.
+*   J'ai essayï¿½ plusieurs mï¿½thodes pour obtenir des valeurs alï¿½atoires, tous trouvï¿½s sur Stackoverflow ou la doc officielle et celle-ci
+*   me parraissait la plus simple ï¿½ utiliser. Elle m'a causï¿½ des problï¿½me ï¿½ un certain moment parce que je ne savais pas que le srand()
+*   est global. Si tu call srand() plusieurs fois, ton random est tout fuckï¿½ pis j'ai passï¿½ un bon moment ï¿½ trouver l'erreur. (C'est
+*   Deepseek qui m'a aidï¿½). l'utilisation du rand() est trï¿½s straight-forward, donc je n'ai pas eu de problï¿½me de ce cï¿½tï¿½. Bref, j'ai
+*   bien aimï¿½ cette mï¿½thode pour faire du random parce que c'est propre, facile ï¿½ lire, facile ï¿½ utiliser et ï¿½a fonctionne bien. Les
+*   autres mï¿½thode que j'ai essayï¿½ ï¿½taient tous un peu weird ï¿½ regarder.
 * 
-* Pour une explication détaillée de l'agorithme de reproduction, voir l'implémentation de la méthode `Creature::mate()`.
+* Pour une explication dï¿½taillï¿½e de l'agorithme de reproduction, voir l'implï¿½mentation de la mï¿½thode `Creature::mate()`.
 */
 
 
@@ -50,7 +50,7 @@
 #include "Population.h"
 #include "PopulationMgr.h"
 
-//paramètres de la simulation
+//paramï¿½tres de la simulation
 int population_size{1000};
 int maxPopulation{ 50000 };
 int maxEvents{ 4 };
@@ -68,7 +68,7 @@ void run(std::ofstream* timeline) {
     mgr.path = path;
     mgr.maxPopulation = maxPopulation / 2;
     mgr.maxEvents = maxEvents;
-    mgr.population = Population::Population(population_size);
+    mgr.population = Population(population_size);
     mgr.population.inspect();
 
     std::cout << "Enter the number of cycles to execute: ";

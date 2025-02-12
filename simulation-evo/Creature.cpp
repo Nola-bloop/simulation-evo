@@ -1,4 +1,4 @@
-#include "Creature.h";
+#include "Creature.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -6,6 +6,66 @@
 #include <math.h>
 #include <vector>
 #include <iostream>
+
+
+void Creature::creerModele() {
+/*
+	// DÃ©finitivement pas besoin de l'obtenir en
+	// string mais je suis trop paresseux live pour
+	// comprendre comment utiliser les std::map
+	const std::string strAdn = this->getDnaString();
+
+	//ModÃ¨le Ã  mettre en mÃ©moire
+	const cote3* modele;
+	size_t tailleModele;
+	switch(strAdn[0] % 3) {
+		case 0:
+			modele = cube;
+			tailleModele = nbCotesCube;
+			break;
+		case 1:
+			modele = prismeTriangulaire;
+			tailleModele = nbCotesPrismeTriangulaire;
+			break;
+		case 2:
+			modele = asterix;
+			tailleModele = nbCotesAsterix;
+			break;
+	}
+
+	this->modele3d.donnees.resize(tailleModele);
+	for (size_t i = 0; i < tailleModele; i++){
+		// On mets les donnÃ©es d'un modÃ¨le 3D en mÃ©moire
+		this->modele3d.donnees[i].coords[0].x = modele[i][0].x;
+		this->modele3d.donnees[i].coords[0].y = modele[i][0].y;
+		this->modele3d.donnees[i].coords[0].z = modele[i][0].z;
+		this->modele3d.donnees[i].coords[1].x = modele[i][1].x;
+		this->modele3d.donnees[i].coords[1].y = modele[i][1].y;
+		this->modele3d.donnees[i].coords[1].z = modele[i][1].z;
+
+		this->modele3d.donnees[i].couleur = {
+			// Valeurs de couleurs de 125 Ã  255 dÃ©pendamment de l'ADN
+			(Uint8)(9*(strAdn[4] - 'A')+21), 
+			(Uint8)(9*(strAdn[5] - 'A')+21),
+			(Uint8)(9*(strAdn[6] - 'A')+21),
+			255
+		};
+	}
+
+	// Copie d'une matrice normale dans celle du modÃ¨le
+	SDL_memcpy(this->modele3d.mt, matriceNormale, sizeof(matrice));
+
+	// On agrandie la taille des crÃ©atures
+	this->modele3d.mt[0][0] *= ((float)(strAdn[1] - 'A') / 4.0f) + 2.0f; 
+	this->modele3d.mt[1][1] *= ((float)(strAdn[2] - 'A') / 4.0f) + 2.0f; 
+	this->modele3d.mt[2][2] *= ((float)(strAdn[3] - 'A') / 4.0f) + 2.0f; 
+
+	// On mets des valeurs de positions X et Y alÃ©atoirement
+    this->modele3d.mt[3][0] = (float)((rand() % 600) - 300); // X
+    this->modele3d.mt[3][1] = (float)((rand() % 600) - 300); // Y
+    this->modele3d.mt[3][2] = (float)((rand() % 200) - 100); // Z
+*/
+}
 
 const char Creature::codes[26] = {
 		'A',
@@ -46,10 +106,12 @@ Creature::Creature(std::map<char, int> dna, int generation, int birth, int inces
 		this->lifetime * 0.66;
 		this->defLifetime * 0.66;
 	}
+    this->creerModele();
 }
 
 Creature::Creature() { 
-	this->ctorShared(); 
+	this->ctorShared();
+    this->creerModele();
 	int lifetime = rand() % 25 + 5;
 	int birthrate = rand() % 15 + 5;
 
@@ -74,7 +136,6 @@ std::string Creature::toString()
 		std::to_string(this->defLifetime) + "-" +
 		std::to_string(this->birthrate);
 }
-
 std::map<char, int> Creature::getDna() {
 	return this->dna;
 }
@@ -151,48 +212,48 @@ int Creature::applyMod(std::map<char, int> mods) {
 Creature Creature::mate(Creature other, int year) {
 	/*
 	* Explications de l'algorithme:
-	*	J'ai discuté beaucoup avec des gens dans le D-BOGUE (notamment Mathis et Morgan) pour avoir
-	*	un algorithme fonctionnel, rapide et plus ou moins réaliste. Ce qui m'à emmené à ceci:
+	*	J'ai discutï¿½ beaucoup avec des gens dans le D-BOGUE (notamment Mathis et Morgan) pour avoir
+	*	un algorithme fonctionnel, rapide et plus ou moins rï¿½aliste. Ce qui m'ï¿½ emmenï¿½ ï¿½ ceci:
 	* 
-	*	dans mon exemple, les parents seront 'ABBQRSTW et BLMNPSWZ'. Le gène mutateur sera 'AEHKLWXY',
-	*	avec aucune consanguinité précédente. Le gène mutateur est un ADN généré complètement
-	*	aléatoirement avec la méthode privée Creature::getRandomDna();
+	*	dans mon exemple, les parents seront 'ABBQRSTW et BLMNPSWZ'. Le gï¿½ne mutateur sera 'AEHKLWXY',
+	*	avec aucune consanguinitï¿½ prï¿½cï¿½dente. Le gï¿½ne mutateur est un ADN gï¿½nï¿½rï¿½ complï¿½tement
+	*	alï¿½atoirement avec la mï¿½thode privï¿½e Creature::getRandomDna();
 	* 
-	*	1)	obtenir le combo d'inceste de l'enfant. Si les parents sont différents, le combo est mis
-	*		à 0. Sinon, on prends le combo d'un parent au hasard et on fait +1.
+	*	1)	obtenir le combo d'inceste de l'enfant. Si les parents sont diffï¿½rents, le combo est mis
+	*		ï¿½ 0. Sinon, on prends le combo d'un parent au hasard et on fait +1.
 	* 
-	*	3)	prendre note du birthrate et du lifetime par défaut de la créature.
+	*	3)	prendre note du birthrate et du lifetime par dï¿½faut de la crï¿½ature.
 	* 
-	*	2)	Faire une copie (et non un appel à la référence!) de l'ADN des deux parents
+	*	2)	Faire une copie (et non un appel ï¿½ la rï¿½fï¿½rence!) de l'ADN des deux parents
 	* 
-	*	3)	(Étape qui se produit seulement si le niveau d'inceste est à 0)-----------------------
-	*		Faire un nouvel ADN vide. Ajouter les gènes mutuels des parents à cet ADN. L'enfant de
-	*		l'exemple aurait un ADN de 'BSW'. Ensuite, on enlèves les gènes utilisés de la copie des
+	*	3)	(ï¿½tape qui se produit seulement si le niveau d'inceste est ï¿½ 0)-----------------------
+	*		Faire un nouvel ADN vide. Ajouter les gï¿½nes mutuels des parents ï¿½ cet ADN. L'enfant de
+	*		l'exemple aurait un ADN de 'BSW'. Ensuite, on enlï¿½ves les gï¿½nes utilisï¿½s de la copie des
 	*		parents. Dans l'exemple, on aurait ceci: 'ABQRT et LMNPZ'
 	* 
-	*	4)	Créer un std::vecteur<char> et y ajouter l'ADN des deux parents et du mutateur.
+	*	4)	Crï¿½er un std::vecteur<char> et y ajouter l'ADN des deux parents et du mutateur.
 	*		Le vecteur de l'exemple aurait ces valeurs: AABEHKLLMNPQRTWXYZ
 	* 
-	*	5)	Remplir l'ADN de l'enfant avec des valeurs aléatoires du vecteur. Lorsqu'une lettre est
-	*		sélectionnée, elle est ensuite supprimée du vecteur.
+	*	5)	Remplir l'ADN de l'enfant avec des valeurs alï¿½atoires du vecteur. Lorsqu'une lettre est
+	*		sï¿½lectionnï¿½e, elle est ensuite supprimï¿½e du vecteur.
 	* 
-	*	6) Appliquer les mesures anti-inceste. (réduire le temps de vie de l'enfant dépendamment de son combo d'inceste)
+	*	6) Appliquer les mesures anti-inceste. (rï¿½duire le temps de vie de l'enfant dï¿½pendamment de son combo d'inceste)
 	* 
-	* Démarches:
-	*	Au début, mon algorithme ne prenait pas en compte la possibilité de consenguinité, puisque
-	*	j'ai évidemment une âme pure et l'idée que mes créatures en fasse ne m'est pas venue. J'ai
-	*	donc eu plusieurs conversations avec plusieurs personnes pour essayer d'avoir la méthode la
-	*	plus efficace et la plus réaliste pour empêcher l'inceste sans trop affecter les résultats.
-	*	Nous en avons donc convenu qu'il fallait empêcher la duplication des gênes et réduire le temps
-	*	de vie. Pour cette raison, les enfants d'inceste skippent l'étape 3 et voient leur temps de vie
-	*	se faire raccourcir avant même leur naissance.
+	* Dï¿½marches:
+	*	Au dï¿½but, mon algorithme ne prenait pas en compte la possibilitï¿½ de consenguinitï¿½, puisque
+	*	j'ai ï¿½videmment une ï¿½me pure et l'idï¿½e que mes crï¿½atures en fasse ne m'est pas venue. J'ai
+	*	donc eu plusieurs conversations avec plusieurs personnes pour essayer d'avoir la mï¿½thode la
+	*	plus efficace et la plus rï¿½aliste pour empï¿½cher l'inceste sans trop affecter les rï¿½sultats.
+	*	Nous en avons donc convenu qu'il fallait empï¿½cher la duplication des gï¿½nes et rï¿½duire le temps
+	*	de vie. Pour cette raison, les enfants d'inceste skippent l'ï¿½tape 3 et voient leur temps de vie
+	*	se faire raccourcir avant mï¿½me leur naissance.
 	* 
-	*	Avant d'arriver à ce consensus, j'ai essayé plusieurs autres algorithmes comme retourner
-	*	simplement la mutation s'il y avait preuve d'inceste, mais celui-ci ne donnait un résultat
-	*	trop différent de l'espèce forte de la simulation donc c'était l'équivalent de tuer l'enfant
-	*	d'entrée de jeu. Nous avons discuté aussi de créer un type d'évènement qui créait un poison
-	*	lent et incessable contre l'espèce qui faisait l'inceste, mais ça s'est avéré un peu trop
-	*	pour ce que je voulais faire. La solution adoptée était simple à implémenter et elle fait
+	*	Avant d'arriver ï¿½ ce consensus, j'ai essayï¿½ plusieurs autres algorithmes comme retourner
+	*	simplement la mutation s'il y avait preuve d'inceste, mais celui-ci ne donnait un rï¿½sultat
+	*	trop diffï¿½rent de l'espï¿½ce forte de la simulation donc c'ï¿½tait l'ï¿½quivalent de tuer l'enfant
+	*	d'entrï¿½e de jeu. Nous avons discutï¿½ aussi de crï¿½er un type d'ï¿½vï¿½nement qui crï¿½ait un poison
+	*	lent et incessable contre l'espï¿½ce qui faisait l'inceste, mais ï¿½a s'est avï¿½rï¿½ un peu trop
+	*	pour ce que je voulais faire. La solution adoptï¿½e ï¿½tait simple ï¿½ implï¿½menter et elle fait
 	*	bien son travail.
 	*/
 
@@ -252,8 +313,6 @@ Creature Creature::mate(Creature other, int year) {
 		}
 	}
 
-
-
 	//generate the rest of the DNA
 	//by starting to tallying all the dnas
 	for (it = parent1.begin(); it != parent1.end(); it++) {
@@ -272,8 +331,6 @@ Creature Creature::mate(Creature other, int year) {
 		}
 	}
 
-
-
 	//then randomly pick dna from the tally (commons)
 	for (int i = childDnaTotal; i < 8; i++) {
 		int randPos = rand() % commons.size();
@@ -285,7 +342,7 @@ Creature Creature::mate(Creature other, int year) {
 	
 
 
-	Creature child = Creature::Creature(childDna, this->generation, year, incestCombo);
+	Creature child = Creature(childDna, this->generation, year, incestCombo);
 	for (int i{ 0 }; i < incestCombo; i++) {
 		this->lifetime *= 0.66;
 		this->defLifetime *= 0.66;

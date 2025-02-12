@@ -14,6 +14,7 @@ public:
 	bool readyToProc{ false };
 	bool readyToDie{ false };
 
+	void creerModele();
 
 	/// <summary>
 	/// Create a creature with starting values

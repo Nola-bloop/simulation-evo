@@ -9,13 +9,14 @@
 #include <time.h>
 #include <vector>
 #include <fstream>
+#include <filesystem>
 
 namespace fs = std::filesystem;
 
 struct PopulationMgr
 {
 	//functionnal variables
-	Population population = Population::Population();
+	Population population = Population();
 	std::vector<Event*> eventQueue{};
 	int cycle{ 0 };
 	time_t seed = time(NULL);
