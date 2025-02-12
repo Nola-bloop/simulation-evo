@@ -74,18 +74,17 @@ void PopulationMgr::playCycles(int cycles) {
 
 void PopulationMgr::generateLog(int deaths)
 {
-	
 	*this->timeline << this->cycle << ",";
 	*this->timeline << this->eventQueue.size() << ",";
 	*this->timeline << deaths << ",";
-	*this->timeline << this->population.getCount() << ";";
+	*this->timeline << this->population.getCount() << ",";
 	
 	
 	std::vector<Creature> creatures = this->population.getCreatures();
 	for (size_t i = 0; i < creatures.size(); i++)
-		if (i < creatures.size() - 1)
-			*this->timeline << creatures[i].getDnaString() << ",";
-		else
+		if (i < creatures.size() - 1) {
+			*this->timeline << creatures[i].toString() << ":";
+		}else
 			*this->timeline << creatures[i].getDnaString();
 
 	*this->timeline << "\n";

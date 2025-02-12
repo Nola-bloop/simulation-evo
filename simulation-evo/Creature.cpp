@@ -48,7 +48,32 @@ Creature::Creature(std::map<char, int> dna, int generation, int birth, int inces
 	}
 }
 
-Creature::Creature() { this->ctorShared(); }
+Creature::Creature() { 
+	this->ctorShared(); 
+	int lifetime = rand() % 25 + 5;
+	int birthrate = rand() % 15 + 5;
+
+	this->defLifetime = lifetime;
+	this->lifetime = lifetime;
+	this->birthrate = birthrate;
+}
+
+Creature::Creature(std::map<char, int> dna, int generation, int birth, int incestCount, int lifetime, int birthrate): Creature(dna, generation, birth, incestCount)
+{
+	//ctorShared() is called in the chained constructor
+
+	this->defLifetime = lifetime;
+	this->lifetime = lifetime;
+	this->birthrate = birthrate;
+}
+
+std::string Creature::toString()
+{
+	return this->getDnaString() + "-" + 
+		std::to_string(this->lifetime) + "-" +
+		std::to_string(this->defLifetime) + "-" +
+		std::to_string(this->birthrate);
+}
 
 std::map<char, int> Creature::getDna() {
 	return this->dna;
@@ -117,7 +142,7 @@ int Creature::applyMod(std::map<char, int> mods) {
 		}
 	}
 
-	if (this->lifetime % 5 == 0) this->readyToProc = true;
+	if (this->lifetime % this->birthrate == 0) this->readyToProc = true;
 
 	if (this->readyToDie) return 1;
 	else return 0;
@@ -135,6 +160,8 @@ Creature Creature::mate(Creature other, int year) {
 	* 
 	*	1)	obtenir le combo d'inceste de l'enfant. Si les parents sont différents, le combo est mis
 	*		à 0. Sinon, on prends le combo d'un parent au hasard et on fait +1.
+	* 
+	*	3)	prendre note du birthrate et du lifetime par défaut de la créature.
 	* 
 	*	2)	Faire une copie (et non un appel à la référence!) de l'ADN des deux parents
 	* 
@@ -190,11 +217,31 @@ Creature Creature::mate(Creature other, int year) {
 		incestCombo++;
 	}
 
+
+	//get specie's lifetime (middle point of two parents or mutate into something different)
+	int baseLifetime{ 0 };
+	if (rand() % 5 == 0) { //mutation
+		baseLifetime = rand() % ((this->defLifetime + other.defLifetime) / 2) + 5;
+	}
+	else { //inheritance
+		baseLifetime = (this->defLifetime + other.defLifetime) / 2;
+	}
+
+
+	//get specie's birthrate (middle point of two parents or mutate into something different)
+	int baseBirthrate{ 0 };
+	if (rand() % 5 == 0) { //mutation
+		baseBirthrate = rand() % ((this->defLifetime + other.defLifetime) / 2) + 5;
+	}
+	else { //inheritance
+		baseBirthrate = (this->birthrate + other.birthrate) / 2;
+	}
+
+	//get mutuals and add it to child DNA
 	std::map<char, int> childDna;
 	int childDnaTotal{ 0 };
 	std::map<char, int>::iterator it;
 	if (incestCombo <= 0) {
-		//get mutuals and add it to child DNA
 		for (it = parent1.begin(); it != parent1.end(); it++) {
 			if (parent2[it->first] > 0 && parent1[it->first] > 0) {
 				parent1[it->first]--;
@@ -204,6 +251,8 @@ Creature Creature::mate(Creature other, int year) {
 			}
 		}
 	}
+
+
 
 	//generate the rest of the DNA
 	//by starting to tallying all the dnas
@@ -223,6 +272,8 @@ Creature Creature::mate(Creature other, int year) {
 		}
 	}
 
+
+
 	//then randomly pick dna from the tally (commons)
 	for (int i = childDnaTotal; i < 8; i++) {
 		int randPos = rand() % commons.size();
@@ -232,6 +283,8 @@ Creature Creature::mate(Creature other, int year) {
 		childDna[newPart] += 1;
 	}
 	
+
+
 	Creature child = Creature::Creature(childDna, this->generation, year, incestCombo);
 	for (int i{ 0 }; i < incestCombo; i++) {
 		this->lifetime *= 0.66;

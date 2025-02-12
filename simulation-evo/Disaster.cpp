@@ -25,5 +25,5 @@ Disaster::Disaster(std::string path, int id) {
 }
 void Disaster::writeFirst()
 {
-	this->logs << "Disaster;" << this->duration << ";";
+	this->logs << "Disaster," << this->duration << ",";
 }

@@ -19,7 +19,7 @@ void Event::getTally(std::string path, int id) {
 
 	std::string out{ "" };
 	for (it = this->tally.begin(); it != this->tally.end(); it++) {
-		out += it->first + std::to_string(it->second) + ",";
+		out += it->first + std::to_string(it->second) + ":";
 	}
 	out = out.substr(0, out.length() - 1);
 	out += "\n";

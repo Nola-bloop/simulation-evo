@@ -25,11 +25,28 @@ public:
 	Creature(std::map<char, int> dna, int generation, int birth, int incestCount);
 
 	/// <summary>
-	/// Instantiate a creature with random dna, gen 0, and dob 0
+	/// Instantiate a creature with random dna, gen 0, and dob 0. lifetime of 20, birthrate of 5
 	/// </summary>
 	Creature();
 
+	/// <summary>
+	/// Create a creature with predefined everything.
+	/// </summary>
+	/// <param name="dna">it's DNA, containing only letters A-Z, assign a number to each letter</param>
+	/// <param name="generation">How many people were born to birth this creature (just +1 the dad's gen)</param>
+	/// <param name="birth">In which cycle was this born</param>
+	/// <param name="incestCount">Number of incest cycles prior to this one</param>
+	/// <param name="lifetime">Lifetime to set. Will still be affected by incest counter-measures.</param>
+	/// <param name="birthrate">birthrate of the creature. lower the number, quicker the reproduction.</param>
+	Creature(std::map<char, int> dna, int generation, int birth, int incestCount, int lifetime, int birthrate);
 
+
+
+	/// <summary>
+	/// return a formatted string of the creature
+	/// </summary>
+	/// <returns></returns>
+	std::string toString();
 
 	/// <summary>
 	/// gets the dna map
@@ -71,6 +88,7 @@ private:
 	std::map<char, int> DoT;
 	int incestCombo{ 0 };
 	int defLifetime{ 30 };
+	int birthrate{ 5 };
 
 	void ctorShared();
 	std::map<char, int> getRandomDna() const;

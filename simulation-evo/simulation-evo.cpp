@@ -74,8 +74,6 @@ void run(std::ofstream* timeline) {
     mgr.playCycles(atoi(usrInput.c_str()));
     mgr.population.inspect();
     std::cout << "Incest Count: " << mgr.incestCount;
-
-    *timeline << mgr.incestCount;
 }
 
 std::ofstream mkFolder() {
@@ -97,6 +95,7 @@ int main()
     srand(static_cast<unsigned int>(seed));
 
     std::ofstream timeline = mkFolder();
+    timeline << "cycle,event_count,deaths,population,dna-lifetime-maxLifetime-birthrate\n";
     run(&timeline);
     
     timeline.close();

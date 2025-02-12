@@ -7,7 +7,7 @@ Population::Population() {
 Population::Population(int size) {
 	this->creatures.reserve(size);
     for (int i = 0; i < size; i++) {
-        this->addCreature(Creature::Creature());
+        this->addCreature(Creature());
     }
 }
 
