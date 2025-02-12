@@ -72,6 +72,9 @@ void PopulationMgr::playCycles(int cycles) {
 		this->generateLog(deaths);
 
 		this->lastCyclePop = this->population.getCount();
+
+		//break iterator if population is empty
+		if (this->lastCyclePop == 0) i = cycles;
 	}
 }
 
