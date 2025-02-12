@@ -51,7 +51,9 @@
 #include "PopulationMgr.h"
 
 //paramètres de la simulation
-int population_size{500};
+int population_size{1000};
+int maxPopulation{ 50000 };
+int maxEvents{ 4 };
 time_t seed{ time(nullptr) };
 
 std::string path;
@@ -64,6 +66,8 @@ void run(std::ofstream* timeline) {
     mgr.seed = seed;
     mgr.timeline = timeline;
     mgr.path = path;
+    mgr.maxPopulation = maxPopulation / 2;
+    mgr.maxEvents = maxEvents;
     mgr.population = Population::Population(population_size);
     mgr.population.inspect();
 

@@ -26,15 +26,17 @@ void PopulationMgr::playCycles(int cycles) {
 
 		//create events if necessary
 		if (this->verbose) std::cout << "    Generating events..." << "\n";
-		if (rand() % this->epidemicChance == 0) {
-			Epidemic* newEpi = new Epidemic(this->path,this->eventQueue.size());
-			if (this->verbose) std::cout << "Creating a pandemic... {" << this->cycle << "} " << newEpi->duration <<" cycles; " << " \n";
-			eventQueue.push_back(newEpi);
-		}
-		if (rand() % this->disasterChance == 0) {
-			if (this->verbose) std::cout << "Creating a disaster... {" << this->cycle << "}\n";
-			Disaster* newDis = new Disaster(this->path, this->eventQueue.size());
-			eventQueue.push_back(newDis);
+		if (this->eventQueue.size() < this->maxEvents) {
+			if (rand() % this->epidemicChance == 0) {
+				Epidemic* newEpi = new Epidemic(this->path, this->eventQueue.size());
+				if (this->verbose) std::cout << "Creating a pandemic... {" << this->cycle << "} " << newEpi->duration << " cycles; " << " \n";
+				eventQueue.push_back(newEpi);
+			}
+			if (rand() % this->disasterChance == 0) {
+				if (this->verbose) std::cout << "Creating a disaster... {" << this->cycle << "}\n";
+				Disaster* newDis = new Disaster(this->path, this->eventQueue.size());
+				eventQueue.push_back(newDis);
+			}
 		}
 
 		//apply events

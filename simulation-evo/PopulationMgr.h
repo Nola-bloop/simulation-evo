@@ -29,6 +29,7 @@ struct PopulationMgr
 	int maxPopulation{ 10000 };
 	int epidemicChance{ 30 }; //higher the number, the rarer it is
 	int disasterChance{ 20 }; //"
+	int maxEvents{ 4 };
 
 	~PopulationMgr();
 
