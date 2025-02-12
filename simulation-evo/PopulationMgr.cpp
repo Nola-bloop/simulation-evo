@@ -57,13 +57,14 @@ void PopulationMgr::playCycles(int cycles) {
 		if (this->verbose) std::cout << "    Applying time damage..." << "\n";
 		this->population.damage(1);
 
-		//procreate
-		if (this->verbose) std::cout << "    Running mating season..." << "\n";
-		if (this->population.getCount() < this->maxPopulation) this->incestCount += this->population.mateSeason(this->cycle, this->maxPopulation);
 
 		//trigger all deaths
 		if (this->verbose) std::cout << "    Running purge..." << "\n";
 		int deaths = this->population.purge();
+
+		//procreate
+		if (this->verbose) std::cout << "    Running mating season..." << "\n";
+		if (this->population.getCount() < this->maxPopulation) this->incestCount += this->population.mateSeason(this->cycle, this->maxPopulation);
 
 
 		this->cycle++;
