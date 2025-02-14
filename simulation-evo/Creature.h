@@ -9,6 +9,7 @@ class Creature
 {
 public:
 	static const char codes[26];
+	static long countId;
 
 	int lifetime{ 30 };
 	bool readyToProc{ false };
@@ -82,6 +83,7 @@ public:
 	/// <returns>an int value of the incest combo</returns>
 	int getIncestCombo();
 private:
+	long long id;
 	std::map<char,int> dna;
 	int generation;
 	int birth;

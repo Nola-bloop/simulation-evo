@@ -4,3 +4,4 @@
 *.vcxproj*
 simulation-evo/simData/*
 old
+*sim

@@ -67,6 +67,8 @@ void Creature::creerModele() {
 */
 }
 
+long Creature::countId = 0;
+
 const char Creature::codes[26] = {
 		'A',
 		'B',
@@ -131,7 +133,8 @@ Creature::Creature(std::map<char, int> dna, int generation, int birth, int inces
 
 std::string Creature::toString()
 {
-	return this->getDnaString() + "-" + 
+	return std::to_string(this->id) + "-" +
+		this->getDnaString() + "-" + 
 		std::to_string(this->lifetime) + "-" +
 		std::to_string(this->defLifetime) + "-" +
 		std::to_string(this->birthrate);
@@ -363,10 +366,14 @@ void Creature::ctorShared() {
 	this->dna = this->getRandomDna();
 	this->generation = 0;
 	this->birth = 0;
+	this->id = Creature::countId;
+
+	Creature::countId++;
 }
 
 std::map<char, int> Creature::getRandomDna() const {
 	std::map<char, int> newDna;
+	
 	for (int i = 0; i < 8; i++) {
 		int rnd = rand() % 26;
 		newDna[Creature::codes[rnd]] += 1;
