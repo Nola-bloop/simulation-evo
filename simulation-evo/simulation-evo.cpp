@@ -54,6 +54,7 @@
 int population_size{1000};
 int maxPopulation{ 50000 };
 int maxEvents{ 4 };
+int cycles{-1};
 time_t seed{ time(nullptr) };
 
 std::string path;
@@ -71,11 +72,15 @@ void run(std::ofstream* timeline) {
     mgr.population = Population(population_size);
     mgr.population.inspect();
 
-    std::cout << "Enter the number of cycles to execute: ";
-    std::string usrInput{ "nthn" };
-    std::cin >> usrInput;
+    if (cycles == -1){
+        std::cout << "Enter the number of cycles to execute: ";
+        std::string usrInput{ "nthn" };
+        std::cin >> usrInput;
+        cycles = stoi(usrInput);
+    }
+    
 
-    mgr.playCycles(atoi(usrInput.c_str()));
+    mgr.playCycles(cycles);
     mgr.population.inspect();
     std::cout << "Incest Count: " << mgr.incestCount;
 }
@@ -94,8 +99,14 @@ std::ofstream mkFolder() {
     return outfile;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    if (argc == 4) {
+        population_size = atoi(argv[1]);
+        maxPopulation = atoi(argv[2]);
+        cycles = atoi(argv[3]);
+    }
+
     srand(static_cast<unsigned int>(seed));
 
     std::ofstream timeline = mkFolder();
